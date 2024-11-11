@@ -1,0 +1,59 @@
+image: "/player/Player.png"
+tile_width: 32
+tile_height: 32
+collision_groups: "default"
+animations {
+  id: "idleback"
+  start_tile: 13
+  end_tile: 18
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
+}
+animations {
+  id: "idlefront"
+  start_tile: 1
+  end_tile: 6
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
+}
+animations {
+  id: "idleleft"
+  start_tile: 7
+  end_tile: 12
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
+  flip_horizontal: 1
+}
+animations {
+  id: "idleright"
+  start_tile: 7
+  end_tile: 12
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
+}
+animations {
+  id: "walkback"
+  start_tile: 31
+  end_tile: 36
+  playback: PLAYBACK_LOOP_FORWARD
+}
+animations {
+  id: "walkfront"
+  start_tile: 19
+  end_tile: 24
+  playback: PLAYBACK_LOOP_FORWARD
+}
+animations {
+  id: "walkleft"
+  start_tile: 25
+  end_tile: 30
+  playback: PLAYBACK_LOOP_FORWARD
+  flip_horizontal: 1
+}
+animations {
+  id: "walkright"
+  start_tile: 25
+  end_tile: 30
+  playback: PLAYBACK_LOOP_FORWARD
+}
+extrude_borders: 2

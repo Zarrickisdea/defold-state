@@ -1,0 +1,138 @@
+local keyTable = {}
+local moveVector = vmath.vector3(0, 0, 0)
+local spriteSource = nil
+local currentAnimation = nil
+
+go.property("speed", 100)
+
+go.property("anim_idleDown", hash("idlefront"))
+go.property("anim_idleUp", hash("idleback"))
+go.property("anim_idleLeft", hash("idleleft"))
+go.property("anim_idleRight", hash("idleright"))
+
+go.property("anim_walkDown", hash("walkfront"))
+go.property("anim_walkUp", hash("walkback"))
+go.property("anim_walkLeft", hash("walkleft"))
+go.property("anim_walkRight", hash("walkright"))
+
+local function moveCharacter(self, dt)
+    moveVector.x = 0
+    moveVector.y = 0
+
+    currentAnimation = self.anim_idleDown
+
+    if keyTable[hash("up")] then
+        moveVector.y = moveVector.y + 1
+        currentAnimation = self.anim_walkUp
+    elseif keyTable[hash("down")] then
+        moveVector.y = moveVector.y - 1
+        currentAnimation = self.anim_walkDown
+    end
+
+    if keyTable[hash("left")] then
+        moveVector.x = moveVector.x - 1
+        currentAnimation = self.anim_walkLeft
+    elseif keyTable[hash("right")] then
+        moveVector.x = moveVector.x + 1
+        currentAnimation = self.anim_walkRight
+    end
+
+    if vmath.length_sqr(moveVector) > 0 then
+        moveVector = vmath.normalize(moveVector)
+        go.set_position(go.get_position() + moveVector * self.speed * dt)
+
+        -- Determine idle animation based on last movement direction
+        if math.abs(moveVector.x) > math.abs(moveVector.y) then
+            if moveVector.x > 0 then
+                currentAnimation = self.anim_walkRight
+            else
+                currentAnimation = self.anim_walkLeft
+            end
+        else
+            if moveVector.y > 0 then
+                currentAnimation = self.anim_walkUp
+            else
+                currentAnimation = self.anim_walkDown
+            end
+        end
+    else
+        -- Set idle animation based on last movement direction
+        if currentAnimation == self.anim_walkRight then
+            currentAnimation = self.anim_idleRight
+        elseif currentAnimation == self.anim_walkLeft then
+            currentAnimation = self.anim_idleLeft
+        elseif currentAnimation == self.anim_walkUp then
+            currentAnimation = self.anim_idleUp
+        elseif currentAnimation == self.anim_walkDown then
+            currentAnimation = self.anim_idleDown
+        end
+    end
+
+    sprite.play_flipbook("#playerSprite", currentAnimation)
+end
+
+function init(self)
+	-- Add initialization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+
+	print(spriteSource)
+	msg.post(".", "acquire_input_focus")
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function update(self, dt)
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+
+	moveCharacter(self, dt)
+end
+
+function fixed_update(self, dt)
+	-- This function is called if 'Fixed Update Frequency' is enabled in the Engine section of game.project
+	-- Can be coupled with fixed updates of the physics simulation if 'Use Fixed Timestep' is enabled in
+	-- Physics section of game.project
+	-- Add update code here
+	-- Learn more: https://defold.com/manuals/script/
+	-- Remove this function if not needed
+end
+
+function on_message(self, message_id, message, sender)
+	-- Add message-handling code here
+	-- Learn more: https://defold.com/manuals/message-passing/
+	-- Remove this function if not needed
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here. The game object this script is attached to
+	-- must have acquired input focus:
+	--
+	--    msg.post(".", "acquire_input_focus")
+	--
+	-- All mapped input bindings will be received. Mouse and touch input will
+	-- be received regardless of where on the screen it happened.
+	-- Learn more: https://defold.com/manuals/input/
+	-- Remove this function if not needed
+
+	if action_id == hash("up") or action_id == hash("down") or action_id == hash("left") or action_id == hash("right") then
+		if action.pressed then
+			-- print("Pressed: " .. action_id)
+			keyTable[action_id] = true
+		elseif action.released then
+			-- print("Released: " .. action_id)
+			keyTable[action_id] = nil
+		end
+	end
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Learn more: https://defold.com/manuals/hot-reload/
+	-- Remove this function if not needed
+end
