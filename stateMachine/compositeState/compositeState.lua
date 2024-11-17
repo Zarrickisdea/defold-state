@@ -58,6 +58,14 @@ function CompositeState:update(dt)
     end
 end
 
+function CompositeState:fixed_update(dt)
+    if self.currentSubState then
+        self.currentSubState:fixed_update(dt)
+    else
+        BaseState.fixed_update(self, dt)
+    end
+end
+
 function CompositeState:getCurrentSubState()
     for name, state in pairs(self.substates) do
         if state == self.currentSubState then

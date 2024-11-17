@@ -14,6 +14,14 @@ end
 function BaseMachine:initialize(initialState, stateList)
     self.states = stateList
     self.currentState = initialState
+    -- print('initialize state machine')
+    -- print('current state: ' .. tostring(self.currentState))
+    -- local stateNames = {}
+    -- for name, _ in pairs(self.states) do
+    --     table.insert(stateNames, name)
+    -- end
+    -- print('available states: ' .. table.concat(stateNames, ', '))
+
 end
 
 function BaseMachine:changeState(newState, conditionCallback)
@@ -26,12 +34,6 @@ function BaseMachine:changeState(newState, conditionCallback)
     end
 end
 
-function BaseMachine:update(dt)
-    if self.currentState then
-        self.currentState:update(dt)
-    end
-end
-
 function BaseMachine:shutdown()
     if self.currentState then
         self.currentState:exit()
@@ -39,12 +41,15 @@ function BaseMachine:shutdown()
 end
 
 function BaseMachine:getCurrentState()
-    for name, state in pairs(self.states) do
-        if state == self.currentState then
-            return name, self.currentState
+    if self.currentState then
+        for name, state in pairs(self.states) do
+            if state == self.currentState then
+                return self.currentState, name
+            end
         end
+        return self.currentState, nil
     end
-    return nil
+    return nil, nil
 end
 
 return BaseMachine

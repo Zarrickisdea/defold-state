@@ -1,7 +1,11 @@
+local PlayerStateMachine = require('player.playerStates.playerStateMachine')
+local PlayerIdleState = require('player.playerStates.playerIdleState')
+
 local keyTable = {}
 local moveVector = vmath.vector3(0, 0, 0)
-local spriteSource = nil
 local currentAnimation = nil
+
+local playerStateMachine = nil
 
 go.property("speed", 100)
 
@@ -76,7 +80,15 @@ function init(self)
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 
-	print(spriteSource)
+    local idleState = PlayerIdleState.new(self)
+
+    local stateList = { idle = idleState }
+    playerStateMachine = PlayerStateMachine.new()
+
+    playerStateMachine:initialize(idleState, stateList)
+
+    playerStateMachine:changeState("idle")
+
 	msg.post(".", "acquire_input_focus")
 end
 
@@ -91,7 +103,14 @@ function update(self, dt)
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
 
-	moveCharacter(self, dt)
+	-- moveCharacter(self, dt)
+
+    if playerStateMachine then
+        local currentState = playerStateMachine:getCurrentState()
+        if currentState then
+            currentState:update(dt)
+        end
+    end
 end
 
 function fixed_update(self, dt)
@@ -101,6 +120,13 @@ function fixed_update(self, dt)
 	-- Add update code here
 	-- Learn more: https://defold.com/manuals/script/
 	-- Remove this function if not needed
+
+    if playerStateMachine then
+        local currentState = playerStateMachine:getCurrentState()
+        if currentState then
+            currentState:fixed_update(dt)
+        end
+    end
 end
 
 function on_message(self, message_id, message, sender)
