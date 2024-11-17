@@ -10,7 +10,7 @@ PlayerStateMachine.__index = PlayerStateMachine
 setmetatable(PlayerStateMachine, {__index = BaseMachine})
 
 function PlayerStateMachine.new()
-    local self = setmetatable({}, PlayerStateMachine)
+    local self = setmetatable(BaseMachine.new(), PlayerStateMachine)
     return self
 end
 

@@ -5,13 +5,12 @@
 
 local PlayerBaseState = require('player.playerStates.playerBaseState')
 
-local PlayerIdleState = {{}, {__index = PlayerBaseState}}
+local PlayerIdleState = {}
 PlayerIdleState.__index = PlayerIdleState
 setmetatable(PlayerIdleState, {__index = PlayerBaseState})
 
 function PlayerIdleState.new(player)
-    local self = setmetatable({}, PlayerIdleState)
-    self.player = player
+    local self = setmetatable(PlayerBaseState.new(player), PlayerIdleState)
     return self
 end
 
@@ -22,12 +21,23 @@ end
 
 function PlayerIdleState:update(dt)
     PlayerBaseState.update(self, dt)
-    print('update idle')
+    -- if self:isMovementKeyPressed() then
+    --     print('idle to move' .. tostring(self:isMovementKeyPressed()))
+    --     self.player.playerStateMachine:changeState('move')
+    -- end
 end
 
 function PlayerIdleState:fixed_update(dt)
     PlayerBaseState.fixed_update(self, dt)
-    print('fixed update idle')
+end
+
+function PlayerIdleState:on_input(action_id, action)
+    PlayerBaseState.on_input(self, action_id, action)
+
+    if self:isMovementKeyPressed() then
+        print('idle to move' .. tostring(self:isMovementKeyPressed()))
+        self.player.playerStateMachine:changeState('move')
+    end
 end
 
 function PlayerIdleState:exit()
