@@ -38,6 +38,9 @@ function BaseMachine:shutdown()
     if self.currentState then
         self.currentState:exit()
     end
+
+    self.currentState = nil
+    self.states = {}
 end
 
 function BaseMachine:getCurrentState()

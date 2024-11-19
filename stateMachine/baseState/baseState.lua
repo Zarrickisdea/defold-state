@@ -15,5 +15,7 @@ function BaseState:enter() end
 function BaseState:exit() end
 function BaseState:update(dt) end
 function BaseState:fixed_update(dt) end
+function BaseState:on_message(message_id, message, sender) end
+function BaseState:on_input(action_id, action) end
 
 return BaseState

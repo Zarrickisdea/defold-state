@@ -3,21 +3,14 @@ tile_width: 32
 tile_height: 32
 collision_groups: "default"
 animations {
-  id: "idleback"
-  start_tile: 13
-  end_tile: 18
-  playback: PLAYBACK_LOOP_FORWARD
-  fps: 24
-}
-animations {
-  id: "idlefront"
+  id: "idleDown"
   start_tile: 1
   end_tile: 6
   playback: PLAYBACK_LOOP_FORWARD
   fps: 24
 }
 animations {
-  id: "idleleft"
+  id: "idleLeft"
   start_tile: 7
   end_tile: 12
   playback: PLAYBACK_LOOP_FORWARD
@@ -25,35 +18,46 @@ animations {
   flip_horizontal: 1
 }
 animations {
-  id: "idleright"
+  id: "idleRight"
   start_tile: 7
   end_tile: 12
   playback: PLAYBACK_LOOP_FORWARD
   fps: 24
 }
 animations {
-  id: "walkback"
-  start_tile: 31
-  end_tile: 36
+  id: "idleUp"
+  start_tile: 13
+  end_tile: 18
   playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
 }
 animations {
-  id: "walkfront"
+  id: "walkDown"
   start_tile: 19
   end_tile: 24
   playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
 }
 animations {
-  id: "walkleft"
+  id: "walkLeft"
   start_tile: 25
   end_tile: 30
   playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
   flip_horizontal: 1
 }
 animations {
-  id: "walkright"
+  id: "walkRight"
   start_tile: 25
   end_tile: 30
   playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
+}
+animations {
+  id: "walkUp"
+  start_tile: 31
+  end_tile: 36
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 24
 }
 extrude_borders: 2
